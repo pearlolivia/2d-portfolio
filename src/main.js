@@ -6,12 +6,12 @@ k.loadSprite('spritesheet', './spritesheet.png', {
     sliceX: 39, // number of frames (1 frame = 16px) that make up the width
     sliceY: 31,
     anims: {
-        'idle-down': 936, // defines position of character sprite in spritesheet
-        "walk-down": { from: 936, to: 939, loop: true, speed: 8 }, // speed = frames ps
-        "idle-side": 975,
-        "walk-side": { from: 975, to: 978, loop: true, speed: 8 },
-        "idle-up": 1014,
-        "walk-up": { from: 1014, to: 1017, loop: true, speed: 8 },
+        'idle-down': 960, // defines position of character sprite in spritesheet
+        "walk-down": { from: 960, to: 963, loop: true, speed: 8 }, // speed = frames ps
+        "idle-side": 999,
+        "walk-side": { from: 999, to: 1002, loop: true, speed: 8 },
+        "idle-up": 1038,
+        "walk-up": { from: 1038, to: 1041, loop: true, speed: 8 },
     },
 });
 
@@ -91,6 +91,54 @@ k.scene('main', async () => { // creates individual scenes
         k.camPos(player.worldPos().x, player.worldPos().y + 100);
     });
 
+
+    k.onKeyDown((key) => {
+        if (player.isInDialogue) return;
+
+        let playerMove;
+        switch (key) {
+            case 'up':
+                playerMove = player.move(0, -player.speed);
+                break;
+            case 'down':
+                playerMove = player.move(0, player.speed);
+                break;
+            case 'left':
+                playerMove = player.move(-player.speed, 0);
+                break;
+            case 'right':
+                playerMove = player.move(player.speed, 0);
+                break;
+        }
+        playerMove;
+
+        if (key === 'up' && player.curAnim() !== 'walk-up') {
+            player.play('walk-up');
+            player.direction = 'up';
+            return;
+        }
+
+        if (key === 'down' && player.curAnim() !== 'walk-down') {
+            player.play('walk-down');
+            player.direction = 'down';
+            return;
+        }
+
+        if (key === 'right') {
+            player.flipX = false; // right is default
+            if (player.curAnim() !== "walk-side") player.play("walk-side");
+            player.direction = "right";
+            return;
+        }
+
+        if (key === 'left') {
+            player.flipX = true;
+            if (player.curAnim() !== "walk-side") player.play("walk-side");
+            player.direction = "left";
+            return;
+        }
+    });
+
     k.onMouseDown((mouseBtn) => {
         if (mouseBtn !== 'left' || player.isInDialogue) return;
         const worldMousePos = k.toWorld(k.mousePos());
@@ -148,9 +196,7 @@ k.scene('main', async () => { // creates individual scenes
     
       k.onMouseRelease(stopAnims);
     
-      k.onKeyRelease(() => {
-        stopAnims();
-      });
+      k.onKeyRelease(stopAnims);
 });
 
 k.go('main'); // defines default scene on load
