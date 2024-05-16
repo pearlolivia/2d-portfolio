@@ -334,7 +334,7 @@
                 }],
          "opacity":1,
          "type":"objectgroup",
-         "visible":true,
+         "visible":false,
          "x":0,
          "y":0
         }, 
@@ -357,7 +357,7 @@
                 }],
          "opacity":1,
          "type":"objectgroup",
-         "visible":true,
+         "visible":false,
          "x":0,
          "y":0
         }],
@@ -382,7 +382,7 @@
          "tilewidth":16
         }, 
         {
-         "firstgid":1210,
+         "firstgid":1226,
          "source":"map.json"
         }],
  "tilewidth":16,
