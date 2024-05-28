@@ -38,7 +38,7 @@ k.scene('main', async () => { // creates individual scenes
         k.pos(),
         k.scale(scaleFactor), // must match other game components
         {
-            speed: 250,
+            speed: 200,
             direction: 'down',
             isInDialogue: false,
         },
