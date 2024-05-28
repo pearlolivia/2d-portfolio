@@ -2,16 +2,16 @@ import { k } from "./kaboomCtx";
 import { dialogueData, scaleFactor } from "./consts";
 import { displayDialogue, setCamScale } from "./utils";
 
-k.loadSprite('spritesheet', './spritesheet.png', {
-    sliceX: 39, // number of frames (1 frame = 16px) that make up the width
-    sliceY: 31,
+k.loadSprite('spritesheet', './sproutlands-animations.png', {
+    sliceX: 4, // number of frames (1 frame = 16px) that make up the width
+    sliceY: 4,
     anims: {
-        'idle-down': 960, // defines position of character sprite in spritesheet
-        "walk-down": { from: 960, to: 963, loop: true, speed: 8 }, // speed = frames ps
-        "idle-side": 999,
-        "walk-side": { from: 999, to: 1002, loop: true, speed: 8 },
-        "idle-up": 1038,
-        "walk-up": { from: 1038, to: 1041, loop: true, speed: 8 },
+        'idle-down': 0, // defines position of character sprite in spritesheet
+        "walk-down": { from: 0, to: 3, loop: true, speed: 12 }, // speed = frames ps
+        "idle-side": 12,
+        "walk-side": { from: 12, to: 15, loop: true, speed: 12 },
+        "idle-up": 4,
+        "walk-up": { from: 4, to: 7, loop: true, speed: 12 },
     },
 });
 
