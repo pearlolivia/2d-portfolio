@@ -15,12 +15,12 @@ k.loadSprite('spritesheet', './spritesheet.png', {
     },
 });
 
-k.loadSprite('map', './map.png');
+k.loadSprite('map', './sproutlands-map-image.png');
 
-k.setBackground(k.Color.fromHex('#311047'));
+k.setBackground(k.Color.fromHex('#c0d470'));
 
 k.scene('main', async () => { // creates individual scenes
-    const mapData = await (await fetch('./map.json')).json();
+    const mapData = await (await fetch('./sproutlands-map.json')).json();
     const layers = mapData.layers;
 
     const map = k.add([ // create game object
