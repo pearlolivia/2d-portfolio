@@ -4,8 +4,8 @@
 Use the mouse to guide the player around the house to read fun facts about me! I have hidden personal and professional facts about myself inside the objects around the rooms.
 
 ## Planned improvements
-Configure interaction for touch devices
 Style update for text boxes
+Code refactoring
 
 ## Inspiration
 I followed this tutorial by JSLegendDev: https://www.youtube.com/watch?v=wy_fSStEgMs 

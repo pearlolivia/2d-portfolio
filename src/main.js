@@ -1,6 +1,6 @@
 import { k } from "./kaboomCtx";
 import { dialogueData, scaleFactor } from "./consts";
-import { displayDialogue, setCamScale } from "./utils";
+import { displayDialogue, isTouchDevice, setCamScale } from "./utils";
 
 k.loadSprite('spritesheet', './sproutlands-animations.png', {
     sliceX: 4, // number of frames (1 frame = 16px) that make up the width
@@ -91,103 +91,111 @@ k.scene('main', async () => { // creates individual scenes
         k.camPos(player.worldPos().x, player.worldPos().y + 100);
     });
 
+    const note = document.getElementById('note');
+    if (isTouchDevice()) {
+        note.innerHTML = 'Tap to move around';
+        const clostTxt = document.getElementById('close-txt');
+        clostTxt.style.display = 'none';
+        k.onMouseDown((mouseBtn) => {
+            if (mouseBtn !== 'left' || player.isInDialogue) return;
+            const worldMousePos = k.toWorld(k.mousePos());
+            player.moveTo(worldMousePos, player.speed);
 
-    k.onKeyDown((key) => {
-        if (player.isInDialogue) return;
+            const mouseAngle = player.pos.angle(worldMousePos);
+            const lowerBound = 50;
+            const upperBound = 125;
 
-        let playerMove;
-        switch (key) {
-            case 'up':
-            case 'w':
-                playerMove = player.move(0, -player.speed);
-                break;
-            case 'down':
-            case 's':
-                playerMove = player.move(0, player.speed);
-                break;
-            case 'left':
-            case 'a':
-                playerMove = player.move(-player.speed, 0);
-                break;
-            case 'right':
-            case 'd':
-                playerMove = player.move(player.speed, 0);
-                break;
-        }
-        playerMove;
-        const upKey = ['up', 'w'];
-        const downKey = ['down', 's'];
-        const leftKey = ['left', 'a'];
-        const rightKey = ['right', 'd'];
+            if (mouseAngle > lowerBound &&
+                mouseAngle < upperBound &&
+                player.curAnim() !== 'walk-up'
+            ) {
+                player.play('walk-up');
+                player.direction = 'up';
+                return;
+            }
 
-        if (upKey.includes(key) && player.curAnim() !== 'walk-up') {
-            player.play('walk-up');
-            player.direction = 'up';
-            return;
-        }
+            if (mouseAngle < -lowerBound &&
+                mouseAngle > -upperBound &&
+                player.curAnim() !== 'walk-down'
+            ) {
+                player.play('walk-down');
+                player.direction = 'down';
+                return;
+            }
 
-        if (downKey.includes(key) && player.curAnim() !== 'walk-down') {
-            player.play('walk-down');
-            player.direction = 'down';
-            return;
-        }
+            if (Math.abs(mouseAngle) > upperBound) {
+                player.flipX = false; // right is default
+                if (player.curAnim() !== "walk-side") player.play("walk-side");
+                player.direction = "right";
+                return;
+            }
+        
+            if (Math.abs(mouseAngle) < lowerBound) {
+                player.flipX = true;
+                if (player.curAnim() !== "walk-side") player.play("walk-side");
+                player.direction = "left";
+                return;
+            }
+        });
+    } else {
+        note.innerHTML = 'Use arrow keys or WASD to move';
+        const closeBtn = document.getElementById('close-btn');
+        closeBtn.style.display = 'none';
+        k.onKeyDown((key) => {
+            if (player.isInDialogue) return;
 
-        if (rightKey.includes(key)) {
-            player.flipX = false; // right is default
-            if (player.curAnim() !== "walk-side") player.play("walk-side");
-            player.direction = "right";
-            return;
-        }
+            let playerMove;
+            switch (key) {
+                case 'up':
+                case 'w':
+                    playerMove = player.move(0, -player.speed);
+                    break;
+                case 'down':
+                case 's':
+                    playerMove = player.move(0, player.speed);
+                    break;
+                case 'left':
+                case 'a':
+                    playerMove = player.move(-player.speed, 0);
+                    break;
+                case 'right':
+                case 'd':
+                    playerMove = player.move(player.speed, 0);
+                    break;
+            }
+            playerMove;
+            const upKey = ['up', 'w'];
+            const downKey = ['down', 's'];
+            const leftKey = ['left', 'a'];
+            const rightKey = ['right', 'd'];
 
-        if (leftKey.includes(key)) {
-            player.flipX = true;
-            if (player.curAnim() !== "walk-side") player.play("walk-side");
-            player.direction = "left";
-            return;
-        }
-    });
-    // only apply for touch devices
-    // k.onMouseDown((mouseBtn) => {
-    //     if (mouseBtn !== 'left' || player.isInDialogue) return;
-    //     const worldMousePos = k.toWorld(k.mousePos());
-    //     player.moveTo(worldMousePos, player.speed);
+            if (upKey.includes(key) && player.curAnim() !== 'walk-up') {
+                player.play('walk-up');
+                player.direction = 'up';
+                return;
+            }
 
-    //     const mouseAngle = player.pos.angle(worldMousePos);
-    //     const lowerBound = 50;
-    //     const upperBound = 125;
+            if (downKey.includes(key) && player.curAnim() !== 'walk-down') {
+                player.play('walk-down');
+                player.direction = 'down';
+                return;
+            }
 
-    //     if (mouseAngle > lowerBound &&
-    //         mouseAngle < upperBound &&
-    //         player.curAnim() !== 'walk-up'
-    //     ) {
-    //         player.play('walk-up');
-    //         player.direction = 'up';
-    //         return;
-    //     }
+            if (rightKey.includes(key)) {
+                player.flipX = false; // right is default
+                if (player.curAnim() !== "walk-side") player.play("walk-side");
+                player.direction = "right";
+                return;
+            }
 
-    //     if (mouseAngle < -lowerBound &&
-    //         mouseAngle > -upperBound &&
-    //         player.curAnim() !== 'walk-down'
-    //     ) {
-    //         player.play('walk-down');
-    //         player.direction = 'down';
-    //         return;
-    //     }
-
-    //     if (Math.abs(mouseAngle) > upperBound) {
-    //         player.flipX = false; // right is default
-    //         if (player.curAnim() !== "walk-side") player.play("walk-side");
-    //         player.direction = "right";
-    //         return;
-    //       }
-      
-    //       if (Math.abs(mouseAngle) < lowerBound) {
-    //         player.flipX = true;
-    //         if (player.curAnim() !== "walk-side") player.play("walk-side");
-    //         player.direction = "left";
-    //         return;
-    //       }
-    // });
+            if (leftKey.includes(key)) {
+                player.flipX = true;
+                if (player.curAnim() !== "walk-side") player.play("walk-side");
+                player.direction = "left";
+                return;
+            }
+        });
+    }
 
     function stopAnims() {
         if (player.direction === "down") {

@@ -62,7 +62,7 @@
         margin-top: 1rem;
       }
 
-      .note {
+      #note {
         position: absolute;
         left: 5%;
         top: 1vh;
@@ -74,13 +74,13 @@
     </style>
     <div id="app">
       <div id="ui">
-        <p class="note">Use arrow keys or WASD to move</p>
+        <p id="note"></p>
         <div id="textbox-container" style="display: none;">
           <div id="textbox">
             <p id="dialogue" class="ui-text"></p>
             <div class="btn-container">
-              <span>Press Enter to close</span>
-              <!-- <button id="close" class="ui-close-btn">Close</button> -->
+              <span id="close-txt">Press Enter to close</span>
+              <button id="close-btn" class="ui-close-btn">Close</button>
             </div>
           </div>
         </div>

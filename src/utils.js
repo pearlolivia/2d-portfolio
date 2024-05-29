@@ -1,3 +1,9 @@
+export const isTouchDevice = () => {
+    return (('ontouchstart' in window) ||
+       (navigator.maxTouchPoints > 0) ||
+       (navigator.msMaxTouchPoints > 0));
+}
+
 export const displayDialogue = (text, onDisplayEnd) => {
     const dialogueUI = document.getElementById('textbox-container');
     const dialogue = document.getElementById('dialogue');
@@ -16,23 +22,29 @@ export const displayDialogue = (text, onDisplayEnd) => {
         clearInterval(intervalRef);
     }, 5);
 
-    // const closeBtn = document.getElementById('close');
+    const closeBtn = document.getElementById('close-btn');
 
-    const onCloseBtnClick = () => {
+    const onClose = () => {
         onDisplayEnd();
         dialogueUI.style.display = 'none';
         dialogue.innerHTML = '';
         clearInterval(intervalRef);
-        // closeBtn.removeEventListener('click', onCloseBtnClick);
-        document.removeEventListener('keypress', onCloseBtnClick);
-    }
-
-    // closeBtn.addEventListener('click', onCloseBtnClick);
-    document.addEventListener('keypress', (e) => {
-        if (e.key === 'Enter') {
-            onCloseBtnClick();
+        if (isTouchDevice) {
+            closeBtn.removeEventListener('click', onClose);
+        } else {
+            document.removeEventListener('keypress', onClose);
         }
-    });
+    }
+    
+    if (isTouchDevice()) {
+       closeBtn.addEventListener('click', onClose);
+    } else {
+        document.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                onClose();
+            }
+        });
+    }
 }
 
 export const setCamScale = (k) => {
