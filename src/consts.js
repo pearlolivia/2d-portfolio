@@ -2,7 +2,7 @@
 export const scaleFactor = 2;
 
 export const dialogueData = {
-    bed: `Goodnight! Thanks for stopping by. Click <a href='https://github.com/pearlolivia'>here</a> to go to my github page. Or click Close if you want to explore more.`,
+    bed: `Goodnight! Thanks for stopping by. Click <a href='https://github.com/pearlolivia'>here</a> to go to my github page. Or close if you want to explore more.`,
     pc: `I spend a lot of time at my PC of course. My ultimate goal is teach myself all the skills to be an indie game developer. I\'ve made a start in creating this portfolio with Kaboom.js: my plan is to make a simple game with the same framework or another JS based framework.`,
     projects: `I spend a lot of my spare time crocheting. Check out my <a href='https://www.instagram.com/crochetpearly/'>crochet instagram page</a> to see what I've been making.`,
     tv: 'I am a console gamer predominantly. I do intend to improve my PC gaming set up one day! Horror flix and games are my favourites, but I also like slow, cosy sandbox games like Minecraft and Stardew Valley.',

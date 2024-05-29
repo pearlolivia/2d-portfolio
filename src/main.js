@@ -98,88 +98,96 @@ k.scene('main', async () => { // creates individual scenes
         let playerMove;
         switch (key) {
             case 'up':
+            case 'w':
                 playerMove = player.move(0, -player.speed);
                 break;
             case 'down':
+            case 's':
                 playerMove = player.move(0, player.speed);
                 break;
             case 'left':
+            case 'a':
                 playerMove = player.move(-player.speed, 0);
                 break;
             case 'right':
+            case 'd':
                 playerMove = player.move(player.speed, 0);
                 break;
         }
         playerMove;
+        const upKey = ['up', 'w'];
+        const downKey = ['down', 's'];
+        const leftKey = ['left', 'a'];
+        const rightKey = ['right', 'd'];
 
-        if (key === 'up' && player.curAnim() !== 'walk-up') {
+        if (upKey.includes(key) && player.curAnim() !== 'walk-up') {
             player.play('walk-up');
             player.direction = 'up';
             return;
         }
 
-        if (key === 'down' && player.curAnim() !== 'walk-down') {
+        if (downKey.includes(key) && player.curAnim() !== 'walk-down') {
             player.play('walk-down');
             player.direction = 'down';
             return;
         }
 
-        if (key === 'right') {
+        if (rightKey.includes(key)) {
             player.flipX = false; // right is default
             if (player.curAnim() !== "walk-side") player.play("walk-side");
             player.direction = "right";
             return;
         }
 
-        if (key === 'left') {
+        if (leftKey.includes(key)) {
             player.flipX = true;
             if (player.curAnim() !== "walk-side") player.play("walk-side");
             player.direction = "left";
             return;
         }
     });
+    // only apply for touch devices
+    // k.onMouseDown((mouseBtn) => {
+    //     if (mouseBtn !== 'left' || player.isInDialogue) return;
+    //     const worldMousePos = k.toWorld(k.mousePos());
+    //     player.moveTo(worldMousePos, player.speed);
 
-    k.onMouseDown((mouseBtn) => {
-        if (mouseBtn !== 'left' || player.isInDialogue) return;
-        const worldMousePos = k.toWorld(k.mousePos());
-        player.moveTo(worldMousePos, player.speed);
+    //     const mouseAngle = player.pos.angle(worldMousePos);
+    //     const lowerBound = 50;
+    //     const upperBound = 125;
 
-        const mouseAngle = player.pos.angle(worldMousePos);
-        const lowerBound = 50;
-        const upperBound = 125;
+    //     if (mouseAngle > lowerBound &&
+    //         mouseAngle < upperBound &&
+    //         player.curAnim() !== 'walk-up'
+    //     ) {
+    //         player.play('walk-up');
+    //         player.direction = 'up';
+    //         return;
+    //     }
 
-        if (mouseAngle > lowerBound &&
-            mouseAngle < upperBound &&
-            player.curAnim() !== 'walk-up'
-        ) {
-            player.play('walk-up');
-            player.direction = 'up';
-            return;
-        }
+    //     if (mouseAngle < -lowerBound &&
+    //         mouseAngle > -upperBound &&
+    //         player.curAnim() !== 'walk-down'
+    //     ) {
+    //         player.play('walk-down');
+    //         player.direction = 'down';
+    //         return;
+    //     }
 
-        if (mouseAngle < -lowerBound &&
-            mouseAngle > -upperBound &&
-            player.curAnim() !== 'walk-down'
-        ) {
-            player.play('walk-down');
-            player.direction = 'down';
-            return;
-        }
-
-        if (Math.abs(mouseAngle) > upperBound) {
-            player.flipX = false; // right is default
-            if (player.curAnim() !== "walk-side") player.play("walk-side");
-            player.direction = "right";
-            return;
-          }
+    //     if (Math.abs(mouseAngle) > upperBound) {
+    //         player.flipX = false; // right is default
+    //         if (player.curAnim() !== "walk-side") player.play("walk-side");
+    //         player.direction = "right";
+    //         return;
+    //       }
       
-          if (Math.abs(mouseAngle) < lowerBound) {
-            player.flipX = true;
-            if (player.curAnim() !== "walk-side") player.play("walk-side");
-            player.direction = "left";
-            return;
-          }
-    });
+    //       if (Math.abs(mouseAngle) < lowerBound) {
+    //         player.flipX = true;
+    //         if (player.curAnim() !== "walk-side") player.play("walk-side");
+    //         player.direction = "left";
+    //         return;
+    //       }
+    // });
 
     function stopAnims() {
         if (player.direction === "down") {
