@@ -1,6 +1,7 @@
 # Pearl's 2D Gamified Portfolio
 
 ## How to use
+https://pearlolivia.github.io/2d-portfolio/
 Use the mouse to guide the player around the house to read fun facts about me! I have hidden personal and professional facts about myself inside the objects around the rooms.
 
 ## Planned improvements
